@@ -3,6 +3,7 @@ void setup(void)
   Serial.begin(115200);
   Serial.println("Orientation Sensor Weidemann - (c) Author Jan Rathmer"); Serial.println("");
   
+  initEEPROM();
   initSensor();
   initDisplay();
 }

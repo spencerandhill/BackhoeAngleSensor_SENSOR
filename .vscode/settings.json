@@ -10,6 +10,14 @@
         "functional": "cpp",
         "system_error": "cpp",
         "xlocmon": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "istream": "cpp",
+        "memory": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "xlocnum": "cpp",
+        "xloctime": "cpp",
+        "ostream": "cpp"
     }
 }

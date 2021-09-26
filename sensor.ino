@@ -40,12 +40,12 @@ float getHorizonAngle()
 {
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
-  return euler.y();
+  return euler.y() + hOffset;
 }
 
 float getVerticalAngle()
 {
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
-  return euler.z();
+  return euler.z() + vOffset;
 }
