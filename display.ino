@@ -1,5 +1,12 @@
+// Sensor
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+
+// Declaration for Bosch Sensor
+Adafruit_BNO055 bno = Adafruit_BNO055(55);
+
 // Display
-#include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
@@ -8,11 +15,38 @@
 #define CIRCLE_CENTER_X 24 // That's, when the x-value is completely centered
 #define CIRCLE_CENTER_Y 40 // That's, when the y-value is completely centered
 
+int hOffset = 0;
+int vOffset = 0;
+
+float horizonAngle;
+float verticalAngle;
+
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+void initSensor(void)
+{
+  Serial.println("Sensor Begin");
+
+  /* Initialise the sensor */
+  if(!bno.begin())
+  {
+    /* There was a problem detecting the BNO055 ... check your connections */
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    while(1);
+  }
+  
+  delay(2000);
+  bno.setExtCrystalUse(true);
+
+  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+  horizonAngle = euler.y(); // horizonAngle
+  verticalAngle = euler.z(); // verticalAngle
+}
+
 void initDisplay(void)
 {
+  Serial.println("Display Begin");
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);
@@ -30,13 +64,22 @@ void drawBootSequence(void)
 
 }
 
-void drawEverything(float horizonAngle, float verticalAngle)
+void loopSensor(void)
 {
+  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+
+  horizonAngle = euler.y(); // horizonAngle
+  verticalAngle = euler.z(); // verticalAngle
+}
+
+void drawEverything()
+{
+
   display.clearDisplay();
   display.drawRoundRect(0, 16, 48, 48, 2, WHITE);
 
-  drawCircle(horizonAngle, verticalAngle);
-  drawValues(horizonAngle, verticalAngle);
+  drawCircle(horizonAngle + hOffset, verticalAngle + vOffset);
+  drawValues(horizonAngle + hOffset, verticalAngle + vOffset);
   drawHeader();
   
   display.display(); 
@@ -55,7 +98,6 @@ void drawCircle(float horizonAngle, float verticalAngle)
   }
 }
 
-// TODO!
 int calculateCirclePositionX(float horizonAngle)
 {
   int multiplyFactor = horizonAngle < 0 ? -1 : 1; // If the value is negative, we have to move the circle to the other side
@@ -83,7 +125,6 @@ int calculateCirclePositionX(float horizonAngle)
   return CIRCLE_CENTER_X;
 }
 
-// TODO!
 int calculateCirclePositionY(float verticalAngle)
 {
   int multiplyFactor = verticalAngle < 0 ? -1 : 1; // If the value is negative, we have to move the circle to the other side

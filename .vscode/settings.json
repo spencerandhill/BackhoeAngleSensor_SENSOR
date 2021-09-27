@@ -18,6 +18,7 @@
         "utility": "cpp",
         "xlocnum": "cpp",
         "xloctime": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "xlocale": "cpp"
     }
 }

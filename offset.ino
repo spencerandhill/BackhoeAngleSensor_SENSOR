@@ -1,9 +1,6 @@
 #include <EEPROM.h>
 #define EESIZE 512
 
-int hOffset = 0;
-int vOffset = 0;
-
 void initEEPROM(void)
 {
   Serial.println("EEPROM Begin");
@@ -27,7 +24,7 @@ int readOffsets(void)
   vOffset = vorzeichenV ? temp * -1 : temp;
 }
 
-int setOffsets(uint8_t h, uint8_t v)
+int setOffsets(int h, int v)
 {
   // Store if the value is negativ or not
   EEPROM.write(EEPROM_ADDRESS_OFFSET_H_negativ, h < 0 ? true : false);
@@ -38,6 +35,6 @@ int setOffsets(uint8_t h, uint8_t v)
   v = v < 0 ? v*-1 : v;
 
   // Store the values
-  EEPROM.write(EEPROM_ADDRESS_OFFSET_H, h);
-  EEPROM.write(EEPROM_ADDRESS_OFFSET_V, v);
+  EEPROM.write(EEPROM_ADDRESS_OFFSET_H, (uint8_t) h); // MUSS uint8_t sein, da sonst negative Werte im EEPROM flippen
+  EEPROM.write(EEPROM_ADDRESS_OFFSET_V, (uint8_t) v); // MUSS uint8_t sein, da sonst negative Werte im EEPROM flippen
 }

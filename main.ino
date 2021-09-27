@@ -1,23 +1,24 @@
+#include <Wire.h>
+
 void setup(void)
 {
   Serial.begin(115200);
   Serial.println("Orientation Sensor Weidemann - (c) Author Jan Rathmer"); Serial.println("");
-  
+
   initEEPROM();
   initSensor();
   initDisplay();
+  initButton();
 }
 
 void loop(void)
 {
-
-// Get the Values as angles
-  float hAngle = getHorizonAngle();
-  float vAngle = getVerticalAngle();
-  printEuler();
-
 // Draw everything on the Display
-  drawEverything(hAngle, vAngle);
+  drawEverything();
 
-  delay(100);
+// Check Buttons
+  loopButton();
+  loopSensor();
+  
+  delay(20);
 }

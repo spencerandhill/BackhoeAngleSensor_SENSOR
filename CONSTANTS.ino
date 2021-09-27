@@ -4,3 +4,8 @@
 
 #define EEPROM_ADDRESS_OFFSET_H_negativ 3
 #define EEPROM_ADDRESS_OFFSET_V_negativ 4
+
+//#############SECTION BUTTONS#############
+#define BUTTON_PIN 4 // Switch connected with Pin D4
+#define BUTTON_TIME_SET_OFFSET 5000
+#define BUTTON_TIME_SWITCH_PAGE 200
