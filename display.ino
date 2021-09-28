@@ -1,12 +1,8 @@
-// Sensor
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
+// New Display
+#include <LovyanGFX.hpp>
 
-// Declaration for Bosch Sensor
-Adafruit_BNO055 bno = Adafruit_BNO055(55);
-
-// Display
+// Old Display
+#include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
@@ -15,34 +11,9 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 #define CIRCLE_CENTER_X 24 // That's, when the x-value is completely centered
 #define CIRCLE_CENTER_Y 40 // That's, when the y-value is completely centered
 
-int hOffset = 0;
-int vOffset = 0;
-
-float horizonAngle;
-float verticalAngle;
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
-void initSensor(void)
-{
-  Serial.println("Sensor Begin");
-
-  /* Initialise the sensor */
-  if(!bno.begin())
-  {
-    /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while(1);
-  }
-  
-  delay(2000);
-  bno.setExtCrystalUse(true);
-
-  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-  horizonAngle = euler.y(); // horizonAngle
-  verticalAngle = euler.z(); // verticalAngle
-}
 
 void initDisplay(void)
 {
@@ -64,22 +35,14 @@ void drawBootSequence(void)
 
 }
 
-void loopSensor(void)
-{
-  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-
-  horizonAngle = euler.y(); // horizonAngle
-  verticalAngle = euler.z(); // verticalAngle
-}
-
-void drawEverything()
+void loopDisplay()
 {
 
   display.clearDisplay();
   display.drawRoundRect(0, 16, 48, 48, 2, WHITE);
 
-  drawCircle(horizonAngle + hOffset, verticalAngle + vOffset);
-  drawValues(horizonAngle + hOffset, verticalAngle + vOffset);
+  drawCircle(getHorizontalAngleWithOffset(), getVerticalAngleWithOffset());
+  drawValues(getHorizontalAngleWithOffset(), getVerticalAngleWithOffset());
   drawHeader();
   
   display.display(); 

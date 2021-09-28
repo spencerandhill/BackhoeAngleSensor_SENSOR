@@ -19,6 +19,12 @@
         "xlocnum": "cpp",
         "xloctime": "cpp",
         "ostream": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "string_view": "cpp"
     }
 }

@@ -1,6 +1,6 @@
 {
     "sketch": "main.ino",
-    "board": "arduino:avr:nano",
-    "configuration": "cpu=atmega328old",
-    "port": "COM7"
+    "board": "esp32:esp32:esp32wrover",
+    "configuration": "PartitionScheme=default,FlashMode=qio,FlashFreq=80,UploadSpeed=115200,DebugLevel=none",
+    "port": "COM10"
 }

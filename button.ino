@@ -62,7 +62,7 @@ void endMeasure(void)
 
 // If button was pressed long enough => Set Offset
   if(result > BUTTON_TIME_SET_OFFSET) {
-    // setOffsets(horizonAngle, verticalAngle);
+    // setOffsetsToEEPROM(getHorizontalAngleRaw(), getVerticalAngleRaw());
     Serial.print(result);Serial.println("Set offset");
     return;
   }

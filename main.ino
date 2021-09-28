@@ -7,14 +7,14 @@ void setup(void)
 
   initEEPROM();
   initSensor();
-  initDisplay();
+  // initDisplay();
   initButton();
 }
 
 void loop(void)
 {
 // Draw everything on the Display
-  drawEverything();
+  // loopDisplay();
 
 // Check Buttons
   loopButton();

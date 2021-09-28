@@ -3,6 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\**",
+                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
+                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.5\\**",
                 "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\BMI160-Arduino",
                 "C:\\Program Files (x86)\\Arduino\\tools\\**",
                 "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\**",
@@ -12,9 +15,7 @@
                 "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.3\\**",
                 "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**"
             ],
-            "forcedInclude": [
-                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.3\\cores\\arduino\\Arduino.h"
-            ],
+            "forcedInclude": [],
             "defines": [
                 "USBCON"
             ],
