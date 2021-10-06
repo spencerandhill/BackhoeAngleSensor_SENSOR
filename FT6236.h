@@ -9,8 +9,14 @@
 
 int readTouchReg(int reg);
 
-int getTouchPointX();
+void setLcdDimensions(int height, int width);
 
-int getTouchPointY();
+void setHeight(int height);
 
-void ft6236_pos(int pos[2]);
+void setWidth(int width);
+
+int getTouchPointX(bool flipX);
+
+int getTouchPointY(bool flipY);
+
+void ft6236_pos(int pos[2], bool flipX, bool flipY);

@@ -1,5 +1,24 @@
 #include "FT6236.h"
 
+int lcdHeight = 0;
+int lcdWidth = 0;
+
+void setLcdDimensions(int height, int width)
+{
+    lcdHeight = height;
+    lcdWidth = width;
+}
+
+void setHeight(int height)
+{
+    lcdHeight = height;
+}
+
+void setWidth(int width)
+{
+    lcdWidth = width;
+}
+
 int readTouchReg(int reg)
 {
     int data = 0;
@@ -14,20 +33,7 @@ int readTouchReg(int reg)
     return data;
 }
 
-/*
-int getTouchPointX()
-{
-    int XL = 0;
-    int XH = 0;
-
-    XH = readTouchReg(TOUCH_REG_XH);
-    XL = readTouchReg(TOUCH_REG_XL);
-
-    return ((XH & 0x0F) << 8) | XL;
-}
-*/
-
-int getTouchPointX()
+int getTouchPointY(bool flipY)
 {
     int XL = 0;
     int XH = 0;
@@ -38,10 +44,15 @@ int getTouchPointX()
         return -1;
     XL = readTouchReg(TOUCH_REG_XL);
 
-    return ((XH & 0x0F) << 8) | XL;
+    int result = ((XH & 0x0F) << 8) | XL;
+
+    if(flipY)
+        result = lcdWidth - result; // The Y value is sometimes counted from bottom to top. Here we flip this
+
+    return result;
 }
 
-int getTouchPointY()
+int getTouchPointX(bool flipX)
 {
     int YL = 0;
     int YH = 0;
@@ -49,10 +60,15 @@ int getTouchPointY()
     YH = readTouchReg(TOUCH_REG_YH);
     YL = readTouchReg(TOUCH_REG_YL);
 
-    return ((YH & 0x0F) << 8) | YL;
+    int result = ((YH & 0x0F) << 8) | YL;
+     
+    if(flipX)
+        result = lcdHeight - result; // The X value is sometimes counted from bottom to top. Here we flip this
+
+    return result;
 }
 
-void ft6236_pos(int pos[2])
+void ft6236_pos(int pos[2], bool flipX, bool flipY)
 {
     int XL = 0;
     int XH = 0;
@@ -70,6 +86,12 @@ void ft6236_pos(int pos[2])
     YH = readTouchReg(TOUCH_REG_YH);
     YL = readTouchReg(TOUCH_REG_YL);
 
-    pos[0] = ((XH & 0x0F) << 8) | XL;
-    pos[1] = ((YH & 0x0F) << 8) | YL;
+    pos[0] = ((YH & 0x0F) << 8) | YL; // In my case, this is the X-value not the Y-Value as it might look like
+    pos[1] = ((XH & 0x0F) << 8) | XL; // In my case, this is the Y-value not the Y-Value as it might look like
+
+    if(flipX)
+        pos[0] = lcdHeight - pos[0]; // The X value is counted from right to left. Here we flip this
+
+    if(flipY)
+        pos[1] = lcdWidth - pos[1]; // The Y value is counted from right to left. Here we flip this
 }

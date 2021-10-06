@@ -27,10 +27,13 @@ void initTouch(void)
         Serial.println(TOUCH_I2C_ADD, HEX);
     }
 
-  // Init Time Measurement
-  previousButtonState = false;
-  startTimeButtonPressed = millis();
-  endTimeButtonPressed = millis();
+    // Set Offsets for Touch Recognition
+    setLcdDimensions(LCD_HEIGHT, LCD_WIDTH);
+
+    // Init Time Measurement
+    previousButtonState = false;
+    startTimeButtonPressed = millis();
+    endTimeButtonPressed = millis();
 }
 
 void loopTouch(void)
@@ -48,8 +51,8 @@ void loopOffsetButton()
   }
 
   if(previousButtonState == true && setOffsetPressed == true) {
-    // TODO Zeit zählen!!
-    Serial.print(".");
+    // TODO Offset Grafik anzeigen / Ladebalken
+    // Serial.print(".");
   }
 
   if(previousButtonState == true && setOffsetPressed == false) {
@@ -67,13 +70,16 @@ void loopOffsetButton()
 boolean isSetOffsetPressed(void)
 {
 // Read Touch Values
-    int pos[2] = {0, 0};
-    ft6236_pos(pos);
+    int pos[2] = {0, 0}; // Y, X
+    ft6236_pos(pos, true, false);
     
+    // pos[1] = LCD_HEIGHT - pos[1]; // The Y value is counted from right to left. Here we flip this
+
     boolean offsetPressed = pos[0] > 0 && pos[1] > 0;
 
-    if(offsetPressed)
-        Serial.printf("%d,%d\n", pos[0], pos[1]);
+    if(offsetPressed) {
+        // Serial.printf("X: %d,Y: %d\n", pos[0], pos[1]);
+    }
 
     return offsetPressed;
 }
