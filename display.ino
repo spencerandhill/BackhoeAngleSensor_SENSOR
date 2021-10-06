@@ -57,9 +57,9 @@ void drawHeader(void)
     display.setCursor(50, 16);
     display.println("Weidemann Sensor");
 
-    display.setTextSize(2);
-    display.setCursor(300, 50);
-    display.println("by Jan Rathmer"); 
+    display.setTextColor(TFT_BLUE);
+    display.setCursor(400, 50);
+    display.println("</>"); 
 }
 
 void loopDisplay()

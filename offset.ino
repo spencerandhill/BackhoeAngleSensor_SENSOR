@@ -49,6 +49,9 @@ int readOffsetsFromEEPROM(void)
 
 int setOffsetsToEEPROM(int h, int v)
 {
+  hOffset = h;
+  vOffset = v;
+  
   // Store if the value is negativ or not
   EEPROM.write(EEPROM_ADDRESS_OFFSET_H_negativ, h < 0 ? true : false);
   EEPROM.write(EEPROM_ADDRESS_OFFSET_V_negativ, v < 0 ? true : false);

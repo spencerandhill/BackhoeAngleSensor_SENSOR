@@ -13,9 +13,9 @@ float verticalAngle;
 
 void initSensor(void)
 {
-    Serial.println("Sensor Begin");
-    I2CBNO.begin(I2C_SDA, I2C_SCL);
-    bno = Adafruit_BNO055(55, BNO055_ADDRESS_A, &I2CBNO);
+  Serial.println("Sensor Begin");
+  I2CBNO.begin(I2C_SDA, I2C_SCL);
+  bno = Adafruit_BNO055(55, BNO055_ADDRESS_A, &I2CBNO);
 
   /* Initialise the sensor */
   if(!bno.begin())
@@ -35,27 +35,27 @@ void loopSensor(void)
 
   horizonAngle = euler.y(); // horizonAngle
   verticalAngle = euler.z(); // verticalAngle
-  
+
   // Serial.print("Y: ");Serial.println(horizonAngle);
   // Serial.print("Z: ");Serial.println(verticalAngle);  
 }
 
 float getVerticalAngleWithOffset(void)
 {
-    return verticalAngle + getVOffset();
+  return verticalAngle - getVOffset();
 }
 
 float getHorizontalAngleWithOffset(void)
 {
-    return horizonAngle + getHOffset();
+  return horizonAngle - getHOffset();
 }
 
 float getVerticalAngleRaw(void)
 {
-    return verticalAngle;
+  return verticalAngle;
 }
 
 float getHorizontalAngleRaw(void)
 {
-    return horizonAngle;
+  return horizonAngle;
 }
