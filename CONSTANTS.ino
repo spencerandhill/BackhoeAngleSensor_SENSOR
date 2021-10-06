@@ -9,3 +9,9 @@
 #define BUTTON_PIN 4 // Switch connected with Pin D4
 #define BUTTON_TIME_SET_OFFSET 5000
 #define BUTTON_TIME_SWITCH_PAGE 200
+
+
+//#############SECTION Display#############
+#define COLOR_WHITE 16777215
+#define COLOR_BLACK 0
+#define COLOR_RED 16711680

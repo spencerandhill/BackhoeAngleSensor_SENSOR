@@ -8,6 +8,7 @@ void setup(void)
   initEEPROM();
   initSensor();
   // initDisplay();
+  initDisplay2();
   initButton();
 }
 
@@ -19,6 +20,6 @@ void loop(void)
 // Check Buttons
   loopButton();
   loopSensor();
-  
+  loopDisplay2();
   delay(20);
 }
