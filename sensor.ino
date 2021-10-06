@@ -4,7 +4,7 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 
-// Declaration for Bosch Sensor
+// Declaration for IMU Sensor BNO055
 Adafruit_BNO055 bno;
 TwoWire I2CBNO = TwoWire(0);
 

@@ -57,7 +57,7 @@ void initDisplay2()
     set_tft();
     tft.begin();
     //tft.init();
-    tft.fillScreen(TFT_BLACK);
+    tft.fillScreen(COLOR_RED);
     // tft.fillRect(0, 0, 80, 40, TFT_RED);
     // tft.fillRect(80, 0, 80, 40, TFT_GREEN);
     // tft.fillRect(160, 0, 80, 40, TFT_BLUE);
@@ -65,60 +65,54 @@ void initDisplay2()
     SPI_OFF_TFT;
 
     // tft.drawEllipse
-  
-    tft.setCursor(50, 16);
-    tft.setTextColor(COLOR_WHITE, COLOR_RED);
-    tft.setTextSize(4);
+}
 
-    tft.print("Hello Weidemann!");
+void drawHeader(void)
+{
+    tft.setTextSize(4);
+    tft.setTextColor(COLOR_WHITE);
+    tft.setCursor(50, 16);
+    tft.println("Weidemann Sensor");
+
+    tft.setTextSize(2);
+    tft.setCursor(80, 200);
+    tft.println("Rathmer"); 
+}
+
+void drawValues(float horizonAngle, float verticalAngle)
+{
+    // Serial.printf("%d,%d\n", horizonAngle, verticalAngle);
+
+// Make every value a positive value, no negatives
+    horizonAngle = horizonAngle < 0 ? horizonAngle *-1 : horizonAngle;
+    verticalAngle = verticalAngle < 0 ? verticalAngle *-1 : verticalAngle;
+
+    // int horizonValue = ((int)(horizonAngle * 100 ))/ 100.0;
+    // int verticalValue = ((int)(verticalAngle * 100 ))/ 100.0;
+
+    // Write the values next to the rectangle
+    tft.setTextSize(3);
+    tft.setTextColor(COLOR_WHITE, COLOR_RED);
+    tft.setCursor(50, 100);
+    tft.print("H:");
+    tft.println(horizonAngle, 2);
+
+    tft.setCursor(150, 80);
+    tft.print("V:");
+    tft.println(verticalAngle, 2);
 }
 
 void loopDisplay2()
 {
+    tft.clearDisplay(COLOR_RED);
+    drawHeader();
+    drawValues(getHorizontalAngleWithOffset(), getVerticalAngleWithOffset());
 
+// Read Touch Values
     int pos[2] = {0, 0};
     ft6236_pos(pos);
     
-    Serial.printf("%d,%d\n", pos[0], pos[1]);
-    if (0 < pos[1] && pos[1] < 40)
-    {
-        if (0 < pos[0] && pos[0] < 80)
-        {
-            draw_color = TFT_RED;
-        }
-        else if (80 < pos[0] && pos[0] < 160)
-        {
-            draw_color = TFT_GREEN;
-        }
-
-        else if (160 < pos[0] && pos[0] < 240)
-        {
-            draw_color = TFT_BLUE;
-        }
-        else if (240 < pos[0] && pos[0] < 320)
-        {
-            draw_color = TFT_YELLOW;
-        }
-    }
-    else
-    {
-        tft.fillRect(pos[0], pos[1], 3, 3, draw_color);
-    }
-}
-
-int filter(int last_pos[2], int pos[2], int level)
-{
-    int temp = (last_pos[0] - pos[0]) * (last_pos[0] - pos[0]) + (last_pos[1] - pos[1]) * (last_pos[1] - pos[1]);
-    last_pos[0] = pos[0];
-    last_pos[1] = pos[1];
-    if (temp > level)
-    {
-        return 0;
-    }
-    else
-    {
-        return 1;
-    }
+    tft.fillRect(pos[0], pos[1], 3, 3, draw_color);
 }
 
 void set_tft()
