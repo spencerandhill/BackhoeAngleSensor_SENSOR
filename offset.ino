@@ -7,10 +7,11 @@ int vOffset = 0;
 void initEEPROM(void)
 {
   Serial.println("EEPROM Begin");
+  EEPROM.begin(EESIZE); // Just for ESP32 or ESP8266. On regular Arduino's this is not needed!
   printOffsets();
 
   Serial.println("Write EEPROM Offsets");
-  setOffsetsToEEPROM(100, -200);
+  setOffsetsToEEPROM(10, -20);
   readOffsetsFromEEPROM();
   printOffsets();
 }
@@ -57,7 +58,7 @@ int setOffsetsToEEPROM(int h, int v)
   v = v < 0 ? v*-1 : v;
 
   // Store the values
-  EEPROM.write(EEPROM_ADDRESS_OFFSET_H, (uint8_t) h); // MUSS uint8_t sein, da sonst negative Werte im EEPROM flippen
-  EEPROM.write(EEPROM_ADDRESS_OFFSET_V, (uint8_t) v); // MUSS uint8_t sein, da sonst negative Werte im EEPROM flippen
+  EEPROM.write(EEPROM_ADDRESS_OFFSET_H, (uint8_t) h); // HAS to be uint8_t, cause otherwise the negativ values get an overflow in EEPROM
+  EEPROM.write(EEPROM_ADDRESS_OFFSET_V, (uint8_t) v); // HAS to be uint8_t, cause otherwise the negativ values get an overflow in EEPROM
   EEPROM.commit();
 }
