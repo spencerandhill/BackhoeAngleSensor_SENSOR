@@ -8,4 +8,4 @@
 //#############SECTION BUTTONS#############
 #define BUTTON_PIN 4 // Switch connected with Pin D4
 #define BUTTON_TIME_SET_OFFSET 5000
-#define BUTTON_TIME_SWITCH_PAGE 200
+#define BUTTON_TIME_SWITCH_PAGE 30
