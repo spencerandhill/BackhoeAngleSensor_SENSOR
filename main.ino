@@ -7,19 +7,15 @@ void setup(void)
 
   initEEPROM();
   initSensor();
-  // initDisplay();
-  initDisplay2();
+  initDisplay();
   initTouch();
 }
 
 void loop(void)
 {
-// Draw everything on the Display
-  // loopDisplay();
-
 // Check Buttons
   loopTouch();
   loopSensor();
-  loopDisplay2();
+  loopDisplay();
   delay(20);
 }
