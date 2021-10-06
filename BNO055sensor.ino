@@ -36,8 +36,8 @@ void loopSensor(void)
   horizonAngle = euler.y(); // horizonAngle
   verticalAngle = euler.z(); // verticalAngle
   
-  Serial.print("Y: ");Serial.println(horizonAngle);
-  Serial.print("Z: ");Serial.println(verticalAngle);  
+  // Serial.print("Y: ");Serial.println(horizonAngle);
+  // Serial.print("Z: ");Serial.println(verticalAngle);  
 }
 
 float getVerticalAngleWithOffset(void)

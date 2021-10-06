@@ -9,7 +9,7 @@ void setup(void)
   initSensor();
   // initDisplay();
   initDisplay2();
-  initButton();
+  initTouch();
 }
 
 void loop(void)
@@ -18,7 +18,7 @@ void loop(void)
   // loopDisplay();
 
 // Check Buttons
-  loopButton();
+  loopTouch();
   loopSensor();
   loopDisplay2();
   delay(20);

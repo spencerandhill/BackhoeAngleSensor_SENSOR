@@ -1,15 +1,36 @@
+#include "FT6236.h"
+
 bool previousButtonState;
 
 unsigned long startTimeButtonPressed;
 unsigned long endTimeButtonPressed;
 
-void initButton(void)
+void initTouch(void)
 {
-  Serial.println("Button Begin");
-  
+    Serial.println("FT6236 Touch Driver Begin");
+
+    Wire.begin(I2C_SDA, I2C_SCL);
+    byte error;
+
+    Wire.beginTransmission(TOUCH_I2C_ADD);
+    error = Wire.endTransmission();
+
+    if (error == 0)
+    {
+        Serial.print("I2C device found at address 0x");
+        Serial.print(TOUCH_I2C_ADD, HEX);
+        Serial.println("  !");
+    }
+    else if (error == 4)
+    {
+        Serial.print("Unknown error at address 0x");
+        Serial.println(TOUCH_I2C_ADD, HEX);
+    }
+
+
   // Init Switch-Button. Rotary is initialized with "myEncoder"
-  pinMode(BUTTON_PIN, INPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+//   pinMode(BUTTON_PIN, INPUT);
+//   pinMode(BUTTON_PIN, INPUT_PULLUP);
   previousButtonState = false;
 
   // Init Time Measurement
@@ -17,30 +38,43 @@ void initButton(void)
   endTimeButtonPressed = millis();
 }
 
-void loopButton(void)
+void loopTouch(void)
 {
-  int buttonPressed = digitalRead(BUTTON_PIN);
+//   int buttonPressed = digitalRead(BUTTON_PIN);
 
-  if(previousButtonState == false && buttonPressed == LOW) {
+  boolean buttonPressed = isButtonPressed();
+
+  if(previousButtonState == false && buttonPressed == true) {
     previousButtonState = true;
     startMeasure();
   }
 
-  if(previousButtonState == true && buttonPressed == LOW) {
+  if(previousButtonState == true && buttonPressed == true) {
     // TODO Zeit zählen!!
     Serial.print("....");
   }
 
-  if(previousButtonState == true && buttonPressed == HIGH) {
+  if(previousButtonState == true && buttonPressed == false) {
     previousButtonState = false;
     endMeasure();
   }
 
-  if(buttonPressed == LOW) {
+  if(buttonPressed == true) {
     previousButtonState = true;
   } else {
     previousButtonState = false;
   }
+}
+
+boolean isButtonPressed(void)
+{
+// Read Touch Values
+    int pos[2] = {0, 0};
+    ft6236_pos(pos);
+    
+    // Serial.printf("%d,%d\n", pos[0], pos[1]);
+
+    return pos[0] > 0 && pos[1] > 0;
 }
 
 void startMeasure(void)

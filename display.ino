@@ -114,32 +114,3 @@ int calculateCirclePositionY(float verticalAngle)
 
   return CIRCLE_CENTER_Y;
 }
-
-void drawValues(float horizonAngle, float verticalAngle)
-{
-// Make every value a positive value, no negatives
-  horizonAngle = horizonAngle < 0 ? horizonAngle *-1 : horizonAngle;
-  verticalAngle = verticalAngle < 0 ? verticalAngle *-1 : verticalAngle;
-
-// Write the values next to the rectangle
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.setCursor(50, 16);
-  display.print("H:");
-  display.println(horizonAngle, 1);
-  
-  display.setCursor(50, 50);
-  display.print("V:");
-  display.println(verticalAngle, 1);
-}
-
-void drawHeader(void)
-{
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 0);
-  display.println("Weidemann Sensor");
-
-  display.setCursor(80, 8);
-  display.println("Rathmer"); 
-}
