@@ -25,7 +25,7 @@ void initSensor(void)
     while(1);
   }
   
-  delay(2000);
+  delay(500);
   bno.setExtCrystalUse(true);
 }
 

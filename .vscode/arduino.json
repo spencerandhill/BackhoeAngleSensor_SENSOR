@@ -1,6 +1,7 @@
 {
-    "sketch": "main.ino",
+    "sketch": "WeidemannWinkelsensor_v2_lvgl.ino",
+    "port": "COM10",
     "board": "esp32:esp32:esp32wrover",
-    "configuration": "PartitionScheme=default,FlashMode=qio,FlashFreq=80,UploadSpeed=115200,DebugLevel=none",
-    "port": "COM10"
+    "output": "../build",
+    "configuration": "PartitionScheme=default,FlashMode=qio,FlashFreq=80,UploadSpeed=115200,DebugLevel=none"
 }
