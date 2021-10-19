@@ -3,6 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
+                "${workspaceFolder}\\**",
+                "${workspaceFolder}\\include\\**",
                 "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
                 "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\**",
                 "C:\\Program Files (x86)\\Arduino\\libraries\\**",
