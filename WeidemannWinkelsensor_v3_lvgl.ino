@@ -1,9 +1,8 @@
 #include "makerfabs_pin.h"
 #include <Wire.h>
 #include <lvgl.h>
+#include <lv_examples.h>
 #include <TFT_eSPI.h>
-
-// #include "graphics/bootGraphics.h"
 
 // LVGL Display Defines
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p);
@@ -17,13 +16,11 @@ void setup(void)
   initEEPROM();
   initSensor();
   initDisplay();
-  // initTouch();
 }
 
 void loop(void)
 {
 // Check Buttons
-  // loopTouch();
   loopSensor();
   loopDisplay();
   delay(5);

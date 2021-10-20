@@ -1,11 +1,12 @@
 #include "ft6x36.h"
 
-#define CONFIG_LV_TOUCH_I2C_PORT_1
-
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 static lv_disp_buf_t disp_buf;
 static lv_color_t buf[LV_HOR_RES_MAX * 10];
+
+lv_obj_t * mainLabel;
+lv_obj_t * buttonLabel;
 
 #if USE_LV_LOG != 0
 /* Serial debugging */
@@ -28,21 +29,6 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
     tft.endWrite();
 
     lv_disp_flush_ready(disp);
-}
-
-/* Reading input device (simulated encoder here) */
-bool read_encoder(lv_indev_drv_t * indev, lv_indev_data_t * data)
-{
-    static int32_t last_diff = 0;
-    int32_t diff = 0; /* Dummy - no movement */
-    int btn_state = LV_INDEV_STATE_REL; /* Dummy - no press */
-
-    data->enc_diff = diff - last_diff;;
-    data->state = btn_state;
-
-    last_diff = diff;
-
-    return false;
 }
 
 bool touch_driver_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
@@ -79,13 +65,6 @@ void initDisplay()
     disp_drv.buffer = &disp_buf;
     lv_disp_drv_register(&disp_drv);
 
-    // /*Initialize the (dummy) input device driver*/
-    // lv_indev_drv_t indev_drv;
-    // lv_indev_drv_init(&indev_drv);
-    // indev_drv.type = LV_INDEV_TYPE_POINTER;
-    // indev_drv.read_cb = read_encoder;
-    // lv_indev_drv_register(&indev_drv);
-
     /*Initialize the touch input device driver*/
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
@@ -94,33 +73,36 @@ void initDisplay()
     lv_indev_drv_register(&indev_drv);
 
     createDisplayContent();
-
 }
 
 void createDisplayContent()
 {
     
     /* Create simple label */
-    lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-    lv_label_set_text(label, "Yup Yup! Geil (V7.0.X)");
-    lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
-
+    mainLabel = lv_label_create(lv_scr_act(), NULL);
+    lv_label_set_text(mainLabel, "Weidemann Display Start (LVGL V7.0.X)");
+    lv_obj_align(mainLabel, NULL, LV_ALIGN_CENTER, 0, 0);
 
 lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);     /*Add a button to the current screen*/
 lv_obj_set_pos(btn, 10, 10);                            /*Set its position*/
-lv_obj_set_size(btn, 100, 50);                          /*Set its size*/
+lv_obj_set_size(btn, 200, 50);                          /*Set its size*/
 lv_obj_set_event_cb(btn, btn_event_cb);                 /*Assign a callback to the button*/
 
-lv_obj_t * label2 = lv_label_create(btn, NULL);          /*Add a label to the button*/
-lv_label_set_text(label2, "Button");                     /*Set the labels text*/
+buttonLabel = lv_label_create(btn, NULL);          /*Add a label to the button*/
+lv_label_set_text(buttonLabel, "Button");                     /*Set the labels text*/
 
 }
 
 void btn_event_cb(lv_obj_t * btn, lv_event_t event)
 {
-    if(event == LV_EVENT_CLICKED) {
+    if(event == LV_EVENT_PRESSED) {
+        lv_label_set_text(mainLabel, "Clicked");
         Serial.println("Clicked");
+    } else if(event == LV_EVENT_RELEASED) {
+        lv_label_set_text(mainLabel, "Released");
+        Serial.println("Released");
     }
+
 }
 
 void loopDisplay()
