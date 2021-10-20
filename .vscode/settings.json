@@ -31,6 +31,9 @@
         "ios": "cpp",
         "xiosbase": "cpp",
         "optional": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "ft6x36.h": "c",
+        "esp_log.h": "c",
+        "lvgl.h": "c"
     }
 }

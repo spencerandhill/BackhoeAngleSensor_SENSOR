@@ -1,3 +1,4 @@
+#include "makerfabs_pin.h"
 #include <Wire.h>
 #include <lvgl.h>
 #include <TFT_eSPI.h>
@@ -16,13 +17,13 @@ void setup(void)
   initEEPROM();
   initSensor();
   initDisplay();
-  initTouch();
+  // initTouch();
 }
 
 void loop(void)
 {
 // Check Buttons
-  loopTouch();
+  // loopTouch();
   loopSensor();
   loopDisplay();
   delay(5);
