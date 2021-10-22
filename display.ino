@@ -80,7 +80,7 @@ void createDisplayContent()
     
     /* Create simple label */
     mainLabel = lv_label_create(lv_scr_act(), NULL);
-    lv_label_set_text(mainLabel, "Weidemann Display Start (LVGL V7.0.X)");
+    lv_label_set_text(mainLabel, "BAS Display Start (LVGL V7.0.X)");
     lv_obj_align(mainLabel, NULL, LV_ALIGN_CENTER, 0, 0);
 
 lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);     /*Add a button to the current screen*/

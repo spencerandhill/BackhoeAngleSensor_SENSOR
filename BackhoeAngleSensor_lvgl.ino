@@ -11,7 +11,7 @@ bool read_encoder(lv_indev_drv_t * indev, lv_indev_data_t * data);
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.println("Orientation Sensor Weidemann - (c) Author Jan Rathmer"); Serial.println("");
+  Serial.println("BackhoeAngleSensor BAS - (c) Author Jan Rathmer"); Serial.println("");
 
   initEEPROM();
   initSensor();
