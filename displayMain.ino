@@ -113,6 +113,6 @@ void btn_event_cb(lv_obj_t * btn, lv_event_t event)
 
 void loopDisplay()
 {
+    updateSliderXY(getVerticalAngleWithOffset(), getHorizontalAngleWithOffset());
     lv_task_handler(); /* let the GUI do its work */
-    // updateSliderXY(getVerticalAngleWithOffset(), getHorizontalAngleWithOffset());
 }

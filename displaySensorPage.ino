@@ -1,3 +1,4 @@
+// Sliders
 static lv_obj_t * sliderX;
 static lv_obj_t * sliderY;
 
@@ -8,13 +9,13 @@ void createSensorSliders()
 {
 // X-Slider    
     /* Create a slider at the right of the display */
-    lv_obj_t * sliderX = lv_slider_create(lv_scr_act(), NULL);
+    sliderX = lv_slider_create(lv_scr_act(), NULL);
     lv_obj_set_width(sliderX, LV_DPI * 2);
     lv_obj_align(sliderX, NULL, LV_ALIGN_CENTER, 0, 10);
     lv_slider_set_range(sliderX, -128, 128);
     lv_obj_set_size(sliderX, 200, 50);
     lv_obj_set_pos(sliderX, 50, 200);
-    lv_slider_set_value(sliderX, 10, LV_ANIM_OFF);
+    lv_slider_set_value(sliderX, 0, LV_ANIM_OFF);
     
     /* Create a label below the slider */
     sliderX_label = lv_label_create(lv_scr_act(), NULL);
@@ -24,13 +25,13 @@ void createSensorSliders()
 
 // Y-Slider    
     /* Create a slider at the right of the display */
-    lv_obj_t * sliderY = lv_slider_create(lv_scr_act(), NULL);
+    sliderY = lv_slider_create(lv_scr_act(), NULL);
     lv_obj_set_width(sliderY, LV_DPI * 2);
     lv_obj_align(sliderY, NULL, LV_ALIGN_CENTER, 0, 10);
-    lv_slider_set_range(sliderY, 0, 100);
+    lv_slider_set_range(sliderY, -128, 128);
     lv_obj_set_size(sliderY, 50, 200);
     lv_obj_set_pos(sliderY, 250, 20);
-    lv_slider_set_value(sliderY, 90, LV_ANIM_OFF);
+    lv_slider_set_value(sliderY, 0, LV_ANIM_OFF);
 
     /* Create a label below the slider */
     sliderY_label = lv_label_create(lv_scr_act(), NULL);
