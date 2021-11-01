@@ -2,6 +2,9 @@
 #define I2C_SDA 26
 #define I2C_SCL 27
 
+#define I2C_BNO055_SDA 5  // CSI_D0
+#define I2C_BNO055_SCL 18 // CSI_D1
+
 #define SPI_MOSI 13
 #define SPI_MISO 12
 #define SPI_SCK 14

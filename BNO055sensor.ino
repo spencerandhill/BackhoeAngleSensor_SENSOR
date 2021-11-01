@@ -17,8 +17,7 @@ bool flipXYAxis = false;
 void initSensor(void)
 {
   Serial.println("Sensor Begin");
-  // I2CBNO.begin(I2C_SDA, I2C_SCL); // BACKUP
-  I2CBNO.begin(I2C_SDA, I2C_SCL, 50000);
+  I2CBNO.begin(I2C_BNO055_SDA, I2C_BNO055_SCL, 50000);
   bno = Adafruit_BNO055(55, BNO055_ADDRESS_A, &I2CBNO);
 
   /* Initialise the sensor */
@@ -40,8 +39,8 @@ void loopSensor(void)
   horizonAngle = euler.y(); // horizonAngle
   verticalAngle = euler.z(); // verticalAngle
 
-  Serial.print("Y: ");Serial.println(horizonAngle);
-  Serial.print("Z: ");Serial.println(verticalAngle);  
+  // Serial.print("Y: ");Serial.println(horizonAngle);
+  // Serial.print("Z: ");Serial.println(verticalAngle);  
 }
 
 float getVerticalAngleWithOffset(void)
