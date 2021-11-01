@@ -11,9 +11,12 @@ static lv_obj_t * buttonSetOffsetLabel;
 static lv_obj_t * buttonSetOffset;
 
 #define OFFSET_BUTTON_SET_WIDTH 100
-#define LV_COLOR_DEPTH 32
 
+// Shovel
+#define LV_COLOR_DEPTH 8
 LV_IMG_DECLARE(shovel);
+
+lv_obj_t * shovelImg;
 
 void createSensorSliders()
 {
@@ -24,7 +27,7 @@ void createSensorSliders()
     lv_obj_align(sliderX, NULL, LV_ALIGN_CENTER, 0, 10);
     lv_slider_set_range(sliderX, -20, 20);
     lv_obj_set_size(sliderX, 200, 50);
-    lv_obj_set_pos(sliderX, 50, 200);
+    lv_obj_set_pos(sliderX, 50, 230);
     lv_slider_set_value(sliderX, 0, LV_ANIM_OFF);
     
     /* Create a label below the slider */
@@ -40,7 +43,7 @@ void createSensorSliders()
     lv_obj_align(sliderY, NULL, LV_ALIGN_CENTER, 0, 10);
     lv_slider_set_range(sliderY, -128, 128);
     lv_obj_set_size(sliderY, 50, 200);
-    lv_obj_set_pos(sliderY, 250, 20);
+    lv_obj_set_pos(sliderY, 250, 50);
     lv_slider_set_value(sliderY, 0, LV_ANIM_OFF);
 
     /* Create a label below the slider */
@@ -82,7 +85,15 @@ void drawOffsetButton()
 
 void drawShovel()
 {
-    lv_obj_t * img1 = lv_img_create(lv_scr_act(), NULL);
-    lv_img_set_src(img1, &shovel);
-    lv_obj_set_pos(img1, 50, 50);
+    shovelImg = lv_img_create(lv_scr_act(), NULL);
+    lv_img_set_src(shovelImg, &shovel);
+    lv_obj_set_pos(shovelImg, 70, 50);
+
+    lv_img_set_pivot(shovelImg, 100, 66); // somewhere in the middle on the right SIDE
+    lv_img_set_angle(shovelImg, 20);
+}
+
+void updateShovelX(float xValue)
+{
+    lv_img_set_angle(shovelImg, (int16_t) xValue * 10);
 }
