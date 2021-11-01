@@ -1,3 +1,7 @@
+// Version: 0.1
+// First working version: -Full hardware support for Display (including LVGL), Touch-Driver and BNO055 Sensor.
+//                        -No Sensor Offset calibration, yet.
+
 #include "makerfabs_pin.h"
 #include <Wire.h>
 #include <lvgl.h>
