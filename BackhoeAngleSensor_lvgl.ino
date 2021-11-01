@@ -14,6 +14,7 @@ void setup(void)
   Serial.println("BackhoeAngleSensor BAS - (c) Author Jan Rathmer"); Serial.println("");
 
   initEEPROM();
+  setFlipXYToEEPROM(true);
   initSensor();
   initDisplay();
 }

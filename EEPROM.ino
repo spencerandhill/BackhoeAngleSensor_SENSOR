@@ -66,6 +66,7 @@ int setOffsetsToEEPROM(int h, int v)
 
 void setFlipXYToEEPROM(bool flipXY)
 {
+  flipXYAxis = flipXY;
   EEPROM.write(EEPROM_ADDRESS_FLIP_XY, flipXY);
   EEPROM.commit();
 }
