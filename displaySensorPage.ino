@@ -12,8 +12,15 @@ static lv_obj_t * buttonSetOffset;
 
 #define OFFSET_BUTTON_SET_WIDTH 100
 
+// Offset-Animation Arc
+#define OFFSET_ANIMATION_ARC_WIDTH 150
+#define OFFSET_ANIMATION_ARC_HEIGHT 150
+static lv_obj_t * arc;
+
+unsigned long arcCreatedTime = 0;
+
 // Shovel
-#define LV_COLOR_DEPTH 8
+#define LV_COLOR_DEPTH 1
 LV_IMG_DECLARE(shovel);
 
 lv_obj_t * shovelImg;
@@ -23,7 +30,6 @@ void createSensorSliders()
 // X-Slider    
     /* Create a slider at the bottom of the display */
     sliderX = lv_slider_create(lv_scr_act(), NULL);
-    lv_obj_set_width(sliderX, LV_DPI * 2);
     lv_obj_align(sliderX, NULL, LV_ALIGN_CENTER, 0, 10);
     lv_slider_set_range(sliderX, -20, 20);
     lv_obj_set_size(sliderX, 200, 50);
@@ -39,7 +45,6 @@ void createSensorSliders()
 // Y-Slider    
     /* Create a slider at the right of the display */
     sliderY = lv_slider_create(lv_scr_act(), NULL);
-    lv_obj_set_width(sliderY, LV_DPI * 2);
     lv_obj_align(sliderY, NULL, LV_ALIGN_CENTER, 0, 10);
     lv_slider_set_range(sliderY, -128, 128);
     lv_obj_set_size(sliderY, 50, 200);
@@ -62,13 +67,41 @@ void updateSliderXY(float xValue, float yValue)
     lv_label_set_text(sliderY_label, String(yValue, 1).c_str());
 }
 
+void drawSetOffsetArc()
+{
+    /*Create an Arc*/
+    arc = lv_arc_create(lv_scr_act(), NULL);
+    
+    lv_arc_set_end_angle(arc, 200);
+    lv_arc_set_range(arc, 0, 5);
+    lv_arc_set_bg_angles(arc, 0, 360);
+    lv_arc_set_angles(arc, 0, 360);
+    lv_arc_set_rotation(arc, 270);
+    lv_arc_set_value(arc, 0);
+    lv_obj_set_size(arc, LCD_WIDTH, LCD_WIDTH); // Should cover as much screen as possible without overlapping the offset Button
+    lv_obj_set_pos(buttonSetOffset, 0, 0);
+
+    arcCreatedTime = millis();
+}
+
+void updateOffsetArc()
+{
+    int16_t currentArcValue = lv_arc_get_value(arc);
+    lv_arc_set_value(arc, currentArcValue + 1);
+}
+
 static void event_handler(lv_obj_t * obj, lv_event_t event)
 {
-    if(event == LV_EVENT_PRESSING) {
+    if(event == LV_EVENT_PRESSED) {
+        printf("Pressed\n");
+        drawSetOffsetArc();
+    } else if(event == LV_EVENT_PRESSING && millis() - arcCreatedTime > 1000) {
         printf("Pressing\n");
+        updateOffsetArc();
     }
     else if(event == LV_EVENT_RELEASED) {
         printf("Released\n");
+        lv_obj_del(arc);
     }
 }
 
@@ -77,7 +110,7 @@ void drawOffsetButton()
     buttonSetOffset = lv_btn_create(lv_scr_act(), NULL);
     lv_obj_set_event_cb(buttonSetOffset, event_handler);
     lv_obj_set_size(buttonSetOffset, OFFSET_BUTTON_SET_WIDTH, 50);
-    lv_obj_set_pos(buttonSetOffset, (LCD_WIDTH - OFFSET_BUTTON_SET_WIDTH) / 2, 300);
+    lv_obj_set_pos(buttonSetOffset, (LCD_WIDTH - OFFSET_BUTTON_SET_WIDTH) / 2, 350);
 
     buttonSetOffsetLabel = lv_label_create(buttonSetOffset, NULL);
     lv_label_set_text(buttonSetOffsetLabel, "Set Offset");
