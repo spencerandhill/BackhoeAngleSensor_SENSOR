@@ -5,6 +5,13 @@ static lv_obj_t * sliderY;
 static lv_obj_t * sliderX_label;
 static lv_obj_t * sliderY_label;
 
+// Set Offset Button
+static void event_handler(lv_obj_t * obj, lv_event_t event);
+static lv_obj_t * buttonSetOffsetLabel;
+static lv_obj_t * buttonSetOffset;
+
+#define OFFSET_BUTTON_SET_WIDTH 100
+
 void createSensorSliders()
 {
 // X-Slider    
@@ -47,4 +54,25 @@ void updateSliderXY(float xValue, float yValue)
 
     lv_slider_set_value(sliderY, (int16_t) yValue, LV_ANIM_OFF);
     lv_label_set_text(sliderY_label, String(yValue, 1).c_str());
+}
+
+static void event_handler(lv_obj_t * obj, lv_event_t event)
+{
+    if(event == LV_EVENT_PRESSING) {
+        printf("Pressing\n");
+    }
+    else if(event == LV_EVENT_RELEASED) {
+        printf("Released\n");
+    }
+}
+
+void drawOffsetButton()
+{
+    buttonSetOffset = lv_btn_create(lv_scr_act(), NULL);
+    lv_obj_set_event_cb(buttonSetOffset, event_handler);
+    lv_obj_set_size(buttonSetOffset, OFFSET_BUTTON_SET_WIDTH, 50);
+    lv_obj_set_pos(buttonSetOffset, (LCD_WIDTH - OFFSET_BUTTON_SET_WIDTH) / 2, 300);
+
+    buttonSetOffsetLabel = lv_label_create(buttonSetOffset, NULL);
+    lv_label_set_text(buttonSetOffsetLabel, "Set Offset");
 }
