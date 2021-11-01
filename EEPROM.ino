@@ -8,10 +8,7 @@ void initEEPROM(void)
 {
   Serial.println("EEPROM Begin");
   EEPROM.begin(EESIZE); // Just for ESP32 or ESP8266. On regular Arduino's this is not needed!
-  printOffsets();
 
-  Serial.println("Write EEPROM Offsets");
-  setOffsetsToEEPROM(10, -20);
   readOffsetsFromEEPROM();
   printOffsets();
   readFlipXYFromEEPROM();
