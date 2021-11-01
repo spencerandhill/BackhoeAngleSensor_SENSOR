@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\SoftWire\\src",
                 "${workspaceFolder}\\**",
                 "${workspaceFolder}\\include\\**",
                 "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",

@@ -2,6 +2,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+#include "makerfabs_pin.h"
 
 // Declaration for IMU Sensor BNO055
 Adafruit_BNO055 bno;
@@ -10,10 +11,14 @@ TwoWire I2CBNO = TwoWire(0);
 float horizonAngle;
 float verticalAngle;
 
+// In case, the sensor was attached in a different direction
+bool flipXYAxis = false;
+
 void initSensor(void)
 {
   Serial.println("Sensor Begin");
-  I2CBNO.begin(I2C_SDA, I2C_SCL);
+  // I2CBNO.begin(I2C_SDA, I2C_SCL); // BACKUP
+  I2CBNO.begin(I2C_SDA, I2C_SCL, 50000);
   bno = Adafruit_BNO055(55, BNO055_ADDRESS_A, &I2CBNO);
 
   /* Initialise the sensor */
@@ -35,26 +40,26 @@ void loopSensor(void)
   horizonAngle = euler.y(); // horizonAngle
   verticalAngle = euler.z(); // verticalAngle
 
-  // Serial.print("Y: ");Serial.println(horizonAngle);
-  // Serial.print("Z: ");Serial.println(verticalAngle);  
+  Serial.print("Y: ");Serial.println(horizonAngle);
+  Serial.print("Z: ");Serial.println(verticalAngle);  
 }
 
 float getVerticalAngleWithOffset(void)
 {
-  return verticalAngle - getVOffset();
+  return getVerticalAngleRaw() - getVOffset();
 }
 
 float getHorizontalAngleWithOffset(void)
 {
-  return horizonAngle - getHOffset();
+  return getHorizontalAngleRaw() - getHOffset();
 }
 
 float getVerticalAngleRaw(void)
 {
-  return verticalAngle;
+  return flipXYAxis ? verticalAngle : horizonAngle;
 }
 
 float getHorizontalAngleRaw(void)
 {
-  return horizonAngle;
+  return flipXYAxis ? horizonAngle : verticalAngle;
 }

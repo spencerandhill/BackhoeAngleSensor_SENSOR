@@ -14,6 +14,7 @@ void initEEPROM(void)
   setOffsetsToEEPROM(10, -20);
   readOffsetsFromEEPROM();
   printOffsets();
+  readFlipXYFromEEPROM();
 }
 
 void printOffsets(void)
@@ -32,7 +33,7 @@ float getVOffset(void)
   return vOffset;
 }
 
-int readOffsetsFromEEPROM(void)
+void readOffsetsFromEEPROM(void)
 {
   bool vorzeichenH;
   EEPROM.get(EEPROM_ADDRESS_OFFSET_H_negativ, vorzeichenH);
@@ -65,3 +66,17 @@ int setOffsetsToEEPROM(int h, int v)
   EEPROM.write(EEPROM_ADDRESS_OFFSET_V, (uint8_t) v); // HAS to be uint8_t, cause otherwise the negativ values get an overflow in EEPROM
   EEPROM.commit();
 }
+
+void setFlipXYToEEPROM(bool flipXY)
+{
+  EEPROM.write(EEPROM_ADDRESS_FLIP_XY, flipXY);
+  EEPROM.commit();
+}
+
+void readFlipXYFromEEPROM()
+{
+  bool flipXY;
+  EEPROM.get(EEPROM_ADDRESS_FLIP_XY, flipXY);
+  flipXYAxis = flipXY;
+}
+

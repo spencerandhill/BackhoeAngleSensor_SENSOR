@@ -11,7 +11,7 @@ The goal is to mount the sensor on the bucket of a yard loader/backhoe and the d
 ### Display
 For the Display I used the "Makerfab ESP32 TFT LCD with Camera(3.5")" (see: https://www.makerfabs.com/wiki/index.php?title=ESP32_TFT_LCD_with_Camera(3.5%27%27))
 
-I don't need the camera, but it was on there and I had the board lying around.
+I don't need the camera, but it was on there and I had the board laying around.
    
 ### Sensor
 I used the BlueDot BNO055 9-Axis IMU (see: https://www.bluedot.space/products/bno055/).  
