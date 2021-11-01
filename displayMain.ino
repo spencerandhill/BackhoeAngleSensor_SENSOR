@@ -77,6 +77,7 @@ void initDisplay()
 void createDisplayContent()
 {
     createSensorSliders();
+    drawShovel();
     drawOffsetButton();
 }
 

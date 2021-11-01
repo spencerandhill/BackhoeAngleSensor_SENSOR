@@ -11,6 +11,9 @@ static lv_obj_t * buttonSetOffsetLabel;
 static lv_obj_t * buttonSetOffset;
 
 #define OFFSET_BUTTON_SET_WIDTH 100
+#define LV_COLOR_DEPTH 32
+
+LV_IMG_DECLARE(shovel);
 
 void createSensorSliders()
 {
@@ -75,4 +78,11 @@ void drawOffsetButton()
 
     buttonSetOffsetLabel = lv_label_create(buttonSetOffset, NULL);
     lv_label_set_text(buttonSetOffsetLabel, "Set Offset");
+}
+
+void drawShovel()
+{
+    lv_obj_t * img1 = lv_img_create(lv_scr_act(), NULL);
+    lv_img_set_src(img1, &shovel);
+    lv_obj_set_pos(img1, 50, 50);
 }
