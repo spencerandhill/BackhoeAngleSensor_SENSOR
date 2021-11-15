@@ -2,11 +2,14 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include "makerfabs_pin.h"
+
+#define SENSOR_BNO055_ADDRESS (0x28)
+#define SENSOR_BNO055_SDA_PIN 5
+#define SENSOR_BNO055_SCL_PIN 6
 
 // Declaration for IMU Sensor BNO055
 Adafruit_BNO055 bno;
-TwoWire I2CBNO = TwoWire(0);
+TwoWire I2CBNO = TwoWire();
 
 float horizonAngle;
 float verticalAngle;
@@ -17,8 +20,8 @@ bool flipXYAxis = false;
 void initSensor(void)
 {
   Serial.println("Sensor Begin");
-  I2CBNO.begin(I2C_BNO055_SDA, I2C_BNO055_SCL, 50000);
-  bno = Adafruit_BNO055(55, BNO055_ADDRESS_A, &I2CBNO);
+  I2CBNO.begin(SENSOR_BNO055_SDA_PIN, SENSOR_BNO055_SCL_PIN, 50000);
+  bno = Adafruit_BNO055(55, SENSOR_BNO055_ADDRESS, &I2CBNO);
 
   /* Initialise the sensor */
   if(!bno.begin())

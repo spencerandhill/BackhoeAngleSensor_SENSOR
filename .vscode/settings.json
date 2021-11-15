@@ -34,6 +34,10 @@
         "ratio": "cpp",
         "ft6x36.h": "c",
         "esp_log.h": "c",
-        "lvgl.h": "c"
+        "lvgl.h": "c",
+        "xlocinfo": "cpp",
+        "chrono": "cpp",
+        "format": "cpp",
+        "forward_list": "cpp"
     }
 }

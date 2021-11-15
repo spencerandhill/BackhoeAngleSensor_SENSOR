@@ -1,2 +1,5 @@
 -add Function to flip X-Range and Y-Range (making the upper or lower end negative/positive)
 -Could be possible, that a negative angle of the shovel is showed as positive value on the display due to wrong arrangement of sensor
+
+
+-MAC ADRESS SENDER: A4:CF:12:BF:76:2D

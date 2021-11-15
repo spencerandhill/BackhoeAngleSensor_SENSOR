@@ -3,22 +3,13 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\SoftWire\\src",
-                "${workspaceFolder}\\**",
-                "${workspaceFolder}\\include\\**",
-                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
+                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                 "C:\\Users\\Jan\\Documents\\Arduino\\libraries\\**",
-                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
-                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\**"
-            ],
-            "forcedInclude": [],
-            "defines": [
-                "USBCON"
+                "C:\\Users\\Jan\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
+                "${workspaceFolder}\\**"
             ],
             "intelliSenseMode": "msvc-x64",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17"
+            "forcedInclude": []
         }
     ],
     "version": 4
