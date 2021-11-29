@@ -9,7 +9,7 @@ void setup(void) {
 
   initSensor();
   initEEPROM();
-  initWiFi();
+  initEspNow();
 
 // Use following lines to set the Offset to a new Zero  
   // delay(2000);

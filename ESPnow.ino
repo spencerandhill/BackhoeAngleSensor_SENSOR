@@ -19,7 +19,7 @@ typedef struct struct_message {
 // Create a struct_sensor_data container
 struct_sensor_data sensorData;
 
-void initWiFi() {
+void initEspNow() {
   Serial.println("Init ESP-NOW");
   Serial.print("ESP8266 Sensor-Board MAC Address:  ");
   Serial.println(WiFi.macAddress());
