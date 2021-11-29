@@ -3,40 +3,55 @@
 
 // Prototypes
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus);
+void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len);
 
 unsigned long lastMillis=0;
-int incomingTemp;
 
+//###################### SEND DATA ################################
 // Structure to send data
 // Must match the receiver structure
-typedef struct struct_message {
+typedef struct struct_sensor_data {
   float horizonAngle;
   float verticalAngle;
   bool flipXYAxis;
   int temperature;
 } struct_sensor_data;
-
-// Create a struct_sensor_data container
+// Create a container for  Sensor Data for the Display
 struct_sensor_data sensorData;
 
 // Callback when data is sent
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
-  Serial.print("Last Packet Send Status: ");
-  if (sendStatus == 0){
-    Serial.println("Delivery success");
-  }
-  else {
-    Serial.println("Delivery fail");
+
+  if(sendStatus != 0) { // Only log, if Delivery failes
+    Serial.print("\r\nLast Packet Send Status:\t");
+    Serial.println("Delivery Fail");
+    Serial.println();
   }
 }
 
-// TODO! This should be a separate structure for incoming sensor-commands
+//###################### RECEIVE DATA ################################
+int incomingCommandType;
+bool incomingCommandValue;
+
+bool newCommandReceived = false;
+// Structure to receive data
+// Must match the sender structure
+typedef struct struct_sensor_command {
+  int commandType;
+  bool commandValue;
+} struct_sensor_command;
+
+// Create a container for  Sensor Commands from the Display
+struct_sensor_command sensorCommand;
+
 // Callback when data is received
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
-  memcpy(&sensorData, incomingData, sizeof(sensorData));
+  memcpy(&sensorCommand, incomingData, sizeof(sensorCommand));
   Serial.print("Bytes received: ");
   Serial.println(len);
-  incomingTemp = sensorData.temperature;
+  incomingCommandType = sensorCommand.commandType;
+  incomingCommandValue = sensorCommand.commandValue;
+  newCommandReceived = true;
 }
 
 void initEspNow() {
@@ -69,7 +84,7 @@ void initEspNow() {
 }
 
 void sendSensorValues() {
-  Serial.println("SEND Values");
+  Serial.print(".");
   // Get fresh Values from sensor
   updateSensor();
   // Pack Sensor-Values to datastructure
@@ -77,19 +92,15 @@ void sendSensorValues() {
 
   // Send message via ESP-NOW
   int result = esp_now_send(broadcastAddressEsp32Display, (uint8_t *) &sensorData, sizeof(sensorData));
-  if (result == 0) {
-    Serial.println("Data successfully sent");
-  }
-  else {
+  if (result != 0) { // Only log, if sending failes
     Serial.println("Error sending data");
+
+    Serial.print("Horizontal: ");Serial.println(getHorizontalAngleWithOffset());
+    Serial.print("Vertical: ");Serial.println(getVerticalAngleWithOffset());
+    Serial.print("flipXYAxis: ");Serial.println(getFlipXY());
+    Serial.print("temperature: ");Serial.println(getTemperature());
+    Serial.println();
   }
-
-  Serial.print("Vertical: ");Serial.println(getVerticalAngleWithOffset());
-  Serial.print("Horizontal: ");Serial.println(getHorizontalAngleWithOffset());
-
-  Serial.print("flipXYAxis: ");Serial.println(getFlipXY());
-  Serial.print("temperature: ");Serial.println(getTemperature());
-  Serial.println();
   
   // Serial.println(millis());
 }
@@ -101,10 +112,31 @@ void updateSensorDataStructure() {
     sensorData.temperature = getTemperature();
 }
 
+void processCommand() {
+  switch(incomingCommandType) {
+    case DISPLAY_COMMAND_SET_OFFSET:
+    Serial.print("DISPLAY_COMMAND_SET_OFFSET. Value: ");
+    Serial.println(incomingCommandValue);
+    break;
+    
+    case DISPLAY_COMMAND_FLIP_XY:
+    Serial.print("DISPLAY_COMMAND_FLIP_XY. Value: ");
+    Serial.println(incomingCommandValue ? "True" : "False");
+    break;
+  }
+
+}
+
 void loopEspNow() {
   
   if(millis() - lastMillis > WIFI_UPDATE_PERIOD) {
     lastMillis = millis();
     sendSensorValues();
+  }
+
+  if(newCommandReceived == true) {
+    Serial.println("New Command received!");
+    processCommand();
+    newCommandReceived = false;
   }
 }

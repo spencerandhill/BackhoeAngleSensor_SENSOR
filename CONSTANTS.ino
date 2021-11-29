@@ -12,3 +12,7 @@
 #define WIFI_UPDATE_PERIOD 500 // In Milliseconds
 
 uint8_t broadcastAddressEsp32Display[] = {0xF0, 0x08, 0xD1, 0xFF, 0xC8, 0x38};
+
+//#############SECTION DISPLAY COMMANDS #############
+#define DISPLAY_COMMAND_SET_OFFSET 0
+#define DISPLAY_COMMAND_FLIP_XY 1
