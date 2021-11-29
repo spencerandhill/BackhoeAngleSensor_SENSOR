@@ -23,7 +23,7 @@ struct_sensor_data sensorData;
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
 
   if(sendStatus != 0) { // Only log, if Delivery failes
-    Serial.print("\r\nLast Packet Send Status:\t");
+    Serial.print("\r\nLast Packet Delivery Status:\t");
     Serial.println("Delivery Fail");
     Serial.println();
   }
@@ -115,13 +115,14 @@ void updateSensorDataStructure() {
 void processCommand() {
   switch(incomingCommandType) {
     case DISPLAY_COMMAND_SET_OFFSET:
-    Serial.print("DISPLAY_COMMAND_SET_OFFSET. Value: ");
-    Serial.println(incomingCommandValue);
+      Serial.print("DISPLAY_COMMAND_SET_OFFSET. Value: ");
+      Serial.println(incomingCommandValue);
     break;
     
     case DISPLAY_COMMAND_FLIP_XY:
-    Serial.print("DISPLAY_COMMAND_FLIP_XY. Value: ");
-    Serial.println(incomingCommandValue ? "True" : "False");
+      Serial.print("DISPLAY_COMMAND_FLIP_XY. Value: ");
+      Serial.println(incomingCommandValue ? "True" : "False");
+      setFlipXYToEEPROM(incomingCommandValue);
     break;
   }
 
