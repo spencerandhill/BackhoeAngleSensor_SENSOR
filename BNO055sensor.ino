@@ -39,7 +39,9 @@ void updateSensor(void) {
   verticalAngle = euler.z();
 
   // Serial.print("Y: ");Serial.println(horizonAngle);
-  // Serial.print("Z: ");Serial.println(verticalAngle);  
+  // Serial.print("Z: ");Serial.println(verticalAngle);
+
+  temperature = bno.getTemp();
 }
 
 void setOffsetToNow() {
@@ -61,4 +63,8 @@ float getHorizontalAngleWithOffset(void) {
   float horizonAngleRaw = getFlipXY() ? verticalAngle : horizonAngle;
 
   return horizonAngleRaw - getHOffset();
+}
+
+int getTemperature(void) {
+  return temperature;
 }
