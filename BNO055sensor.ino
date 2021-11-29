@@ -4,8 +4,8 @@
 #include <utility/imumaths.h>
 
 #define SENSOR_BNO055_ADDRESS (0x28)
-#define SENSOR_BNO055_SDA_PIN 5
-#define SENSOR_BNO055_SCL_PIN 6
+#define SENSOR_BNO055_SDA_PIN 4
+#define SENSOR_BNO055_SCL_PIN 5
 
 // Declaration for IMU Sensor BNO055
 Adafruit_BNO055 bno;
@@ -13,14 +13,11 @@ TwoWire I2CBNO = TwoWire();
 
 float horizonAngle;
 float verticalAngle;
+int temperature = 18;
 
-// In case, the sensor was attached in a different direction
-bool flipXYAxis = false;
-
-void initSensor(void)
-{
+void initSensor(void) {
   Serial.println("Sensor Begin");
-  I2CBNO.begin(SENSOR_BNO055_SDA_PIN, SENSOR_BNO055_SCL_PIN, 50000);
+  I2CBNO.begin(SENSOR_BNO055_SDA_PIN, SENSOR_BNO055_SCL_PIN);
   bno = Adafruit_BNO055(55, SENSOR_BNO055_ADDRESS, &I2CBNO);
 
   /* Initialise the sensor */
@@ -35,33 +32,33 @@ void initSensor(void)
   bno.setExtCrystalUse(true);
 }
 
-void loopSensor(void)
-{
+void updateSensor(void) {
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
-  horizonAngle = euler.y(); // horizonAngle
-  verticalAngle = euler.z(); // verticalAngle
+  horizonAngle = euler.y();
+  verticalAngle = euler.z();
 
   // Serial.print("Y: ");Serial.println(horizonAngle);
   // Serial.print("Z: ");Serial.println(verticalAngle);  
 }
 
-float getVerticalAngleWithOffset(void)
-{
-  return getVerticalAngleRaw() - getVOffset();
+void setOffsetToNow() {
+  updateSensor();
+
+  int horizonAngleRaw = getFlipXY() ? verticalAngle : horizonAngle;
+  int verticalAngleRaw = getFlipXY() ? horizonAngle : verticalAngle;
+
+  setOffsetsToEEPROM(horizonAngleRaw, verticalAngleRaw);
 }
 
-float getHorizontalAngleWithOffset(void)
-{
-  return getHorizontalAngleRaw() - getHOffset();
+float getVerticalAngleWithOffset(void) {
+  float verticalAngleRaw = getFlipXY() ? horizonAngle : verticalAngle;
+
+  return verticalAngleRaw - getVOffset();
 }
 
-float getVerticalAngleRaw(void)
-{
-  return flipXYAxis ? verticalAngle : horizonAngle;
-}
+float getHorizontalAngleWithOffset(void) {
+  float horizonAngleRaw = getFlipXY() ? verticalAngle : horizonAngle;
 
-float getHorizontalAngleRaw(void)
-{
-  return flipXYAxis ? horizonAngle : verticalAngle;
+  return horizonAngleRaw - getHOffset();
 }

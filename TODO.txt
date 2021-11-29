@@ -4,3 +4,9 @@
 
 -MAC ADRESS ESP8266-SENSOR: A4:CF:12:BF:76:2D
 -MAC ADRESS ESP32-DISPLAY:  24:62:AB:DD:49:68
+
+DONE:
+-Fix Sensor Loop
+
+Next TODOs:
+-Implement Sensor Transmission over ESP-NOW 4-6 times per second
