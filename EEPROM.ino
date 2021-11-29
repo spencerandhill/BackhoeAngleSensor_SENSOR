@@ -75,7 +75,7 @@ int setOffsetsToEEPROM(int h, int v) {
   EEPROM.commit();
 }
 
-float getFlipXY(void) {
+bool getFlipXY(void) {
   return flipXYAxis;
 }
 
