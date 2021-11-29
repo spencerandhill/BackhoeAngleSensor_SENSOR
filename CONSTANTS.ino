@@ -11,4 +11,4 @@
 //#############SECTION ESP NOW #############
 #define WIFI_UPDATE_PERIOD 500 // In Milliseconds
 
-uint8_t broadcastAddressEsp32Display[] = {0x24, 0x62, 0xAB, 0xDD, 0x49, 0x68};
+uint8_t broadcastAddressEsp32Display[] = {0xF0, 0x08, 0xD1, 0xFF, 0xC8, 0x38};
