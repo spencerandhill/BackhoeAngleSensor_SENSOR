@@ -14,10 +14,12 @@ void setup(void) {
   Serial.begin(115200);
   Serial.println("BackhoeAngleSensor BAS - (c) Author Jan Rathmer"); Serial.println("");
 
-  initSensor();
-  initEEPROM();
   initEspNow();
+  sendSensorSystemStatus(SENSOR_STATUS_WARNING);
+  initEEPROM();
+  initSensor();
 
+  sendSensorSystemStatus(SENSOR_STATUS_OK);
 // Use following lines to set the Offset to a new Zero  
   // delay(2000);
   // setOffsetToNow();

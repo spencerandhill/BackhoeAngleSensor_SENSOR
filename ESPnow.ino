@@ -90,7 +90,13 @@ void sendSensorValues() {
   updateSensor();
   // Pack Sensor-Values to datastructure
   updateSensorDataStructure();
+  // Send Data
+  sendMessage();
+  
+  // Serial.println(millis());
+}
 
+void sendMessage() {
   // Send message via ESP-NOW
   int result = esp_now_send(broadcastAddressEsp32Display, (uint8_t *) &sensorData, sizeof(sensorData));
   if (result != 0) { // Only log, if sending failes
@@ -102,8 +108,12 @@ void sendSensorValues() {
     Serial.print("temperature: ");Serial.println(getTemperature());
     Serial.println();
   }
-  
-  // Serial.println(millis());
+}
+
+void sendSensorSystemStatus(int sensorSystemStatus) {
+  updateSensorDataStructure();
+  sensorData.sensorSystemStatus = sensorSystemStatus;
+  sendMessage();
 }
 
 void updateSensorDataStructure() {
