@@ -44,6 +44,53 @@ void updateSensor(void) {
   temperature = bno.getTemp();
 }
 
+int getSensorSystemStatus()
+{
+  //  0 = Idle
+  //  1 = System Error
+  //  2 = Initializing Peripherals
+  //  3 = System Iniitalization
+  //  4 = Executing Self-Test
+  //  5 = Sensor fusio algorithm running
+  //  6 = System running without fusion algorithms
+  uint8_t *system_status;
+
+  // 1 = test passed, 0 = test failed
+  // Bit 0 = Accelerometer self test
+  // Bit 1 = Magnetometer self test
+  // Bit 2 = Gyroscope self test
+  // Bit 3 = MCU self test
+  // 0x0F = all good!
+  uint8_t *self_test_result;
+
+  // 0 = No error
+  // 1 = Peripheral initialization error
+  // 2 = System initialization error
+  // 3 = Self test result failed
+  // 4 = Register map value out of range
+  // 5 = Register map address out of range
+  // 6 = Register map write error
+  // 7 = BNO low power mode not available for selected operat ion mode
+  // 8 = Accelerometer power mode not available
+
+  // 9 = Fusion algorithm configuration error
+  // 10 = Sensor configuration error
+  uint8_t *system_error;
+
+  bno.getSystemStatus(system_status, self_test_result, system_error);
+
+  bool warning = (int) system_status == 6 || ((int) system_status >= 2 && (int) system_status <= 4);
+  bool error = (int) system_status == 1 || (int) system_error != 0;
+
+  if(error) {
+    return SENSOR_STATUS_ERROR;
+  } else if(warning) {
+    return SENSOR_STATUS_WARNING;
+  }
+
+  return SENSOR_STATUS_OK;
+}
+
 void setOffsetToNow() {
   updateSensor();
 

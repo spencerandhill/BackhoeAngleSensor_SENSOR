@@ -15,6 +15,7 @@ typedef struct struct_sensor_data {
   float verticalAngle;
   bool flipXYAxis;
   int temperature;
+  int sensorSystemStatus;
 } struct_sensor_data;
 // Create a container for  Sensor Data for the Display
 struct_sensor_data sensorData;
@@ -110,27 +111,30 @@ void updateSensorDataStructure() {
     sensorData.verticalAngle = getVerticalAngleWithOffset();
     sensorData.flipXYAxis = getFlipXY();
     sensorData.temperature = getTemperature();
+    sensorData.sensorSystemStatus = getSensorSystemStatus();
 }
 
 void processCommand() {
+
   switch(incomingCommandType) {
-    case DISPLAY_COMMAND_SET_OFFSET:
-      Serial.print("DISPLAY_COMMAND_SET_OFFSET. Value: ");
-      Serial.println(incomingCommandValue);
+    case DISPLAY_COMMAND_CALIBRATE_SENSOR:
+      Serial.print("DISPLAY_COMMAND_CALIBRATE_SENSOR. Value: ");
+      setOffsetToNow();
     break;
     
     case DISPLAY_COMMAND_FLIP_XY:
       Serial.print("DISPLAY_COMMAND_FLIP_XY. Value: ");
-      Serial.println(incomingCommandValue ? "True" : "False");
       setFlipXYToEEPROM(incomingCommandValue);
     break;
   }
+
+  Serial.println(incomingCommandValue ? "True" : "False");
 
 }
 
 void loopEspNow() {
   
-  if(millis() - lastMillis > WIFI_UPDATE_PERIOD) {
+  if(millis() - lastMillis > ESPNOW_SEND_RATE) {
     lastMillis = millis();
     sendSensorValues();
   }

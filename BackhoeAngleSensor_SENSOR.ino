@@ -1,4 +1,11 @@
+#include "CONSTANTS.h"
 #include <Wire.h>
+
+// Prototypes
+void initSensor(void);
+void initEEPROM(void);
+void initEspNow(void);
+void loopEspNow(void);
 
 // Uncomment following line, the first time flashing to the controller!
 // #define FLASHING_FIRST_TIME
